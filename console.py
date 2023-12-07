@@ -1,8 +1,19 @@
 #!/usr/bin/python3
+""" This is the console module"""
 import cmd
+import sys
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.place import Place
+from models.amenity import Amenity
+from models.city import City
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
+    """ Base Class"""
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
@@ -87,6 +98,10 @@ class HBNBCommand(cmd.Cmd):
                 print(value)
 
     def do_update(self, arg):
+        """Updates an instance based on the class name and
+        id by adding or updating attribute
+        (save the change into the JSON file)"""
+
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
