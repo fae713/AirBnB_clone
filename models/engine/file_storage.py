@@ -43,7 +43,22 @@ class File Storage:
         objdict = {}
         for obj in my_dict.keys():
             objdict[obj] = my_dict[obj].to_dict()
-        
+
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
             json.dump(objdict, f)
 
+    def reload(self):
+        """deserializes the JSON file to __objects
+        (only if the JSON file (__file_path) exists
+        """
+        try:
+            with open(FileStorage.__file_path) as f:
+                new_data = json.load(f)
+
+                for val in new_data.values():
+                    cls_name = val["__class__"]
+                    del val["__class__"]
+                    self.new(eval(cls_name)(**val))
+
+        except Exception:
+            pass
