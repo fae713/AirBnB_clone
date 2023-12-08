@@ -6,7 +6,7 @@
 """
 import json
 import os
-from model.base_model import BaseModel
+from models.base_model import BaseModel
 from models.user import User
 from models.state import State
 from models.place import Place
@@ -15,7 +15,7 @@ from models.amenity import Amenity
 from models.review import Review
 
 
-class File Storage:
+class FileStorage:
     """ This is the FileStorage Class declaration
     Attributes:
                 __file_path: Path to the JSON file

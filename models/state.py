@@ -4,7 +4,7 @@
 from models.base_model import BaseModel
 
 
-class state(BaseModel):
+class State(BaseModel):
     """A state in the AirBnB app
     .
     Attributes:
