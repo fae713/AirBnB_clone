@@ -101,23 +101,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints string representation of all instances."""
-        input_args = arg.split()
-        all_objs = storage.all()
-
-        if len(input_args) < 1:
-            all_objs = storage.all()
-            print(["{}".format(str(v)) for _, v in objs.items()])
-            return
-
-        if input_args[0] not in the_classes.keys():
+        if arg[0] not in the_classes.keys() and len(arg) > 0:
             print("** class doesn't exist **")
-            return
-
         else:
-            print(["{}".format(str(v))
-                   for _, in all_objs.items() if type(v).__name__
-                   == input_args[0]])
-            return
+            inst_obj = []
+            for obj in storage.all().calues():
+                if len(arg) > 0 and arg[0] == obj.__class__.__name__:
+                    inst_obj.append(obj.__str__())
+                elif len(arg) == 0:
+                    inst_obj.append(obj.__str__())
+                print(inst_obj)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and
