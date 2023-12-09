@@ -93,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id is missing **")
         else:
             key = f"{args[0]}.{args[1]}"
-            if key in models.storage.all().keys():
+            if key in storage.all().keys():
                 del storage.all()[key]
                 storage.save()
             else:
@@ -101,16 +101,17 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, arg):
         """Prints string representation of all instances."""
-        if arg[0] not in the_classes.keys() and len(arg) > 0:
+        args = arg.split()
+        if len(args) > 0 and args[0] not in the_classes.keys():
             print("** class doesn't exist **")
         else:
             inst_obj = []
-            for obj in storage.all().calues():
-                if len(arg) > 0 and arg[0] == obj.__class__.__name__:
+            for obj in storage.all().values():
+                if len(args) > 0 and args[0] == obj.__class__.__name__:
                     inst_obj.append(obj.__str__())
-                elif len(arg) == 0:
+                elif len(args) == 0:
                     inst_obj.append(obj.__str__())
-                print(inst_obj)
+            print(inst_obj)
 
     def do_update(self, arg):
         """Updates an instance based on the class name and
