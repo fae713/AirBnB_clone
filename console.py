@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """ This is the console module"""
 import cmd
+import json
+import re
 import sys
 from models import storage
 from models.base_model import BaseModel
@@ -11,17 +13,25 @@ from models.amenity import Amenity
 from models.city import City
 from models.review import Review
 
+the_classes = {'BaseModel': BaseModel, 'User': User,
+               'Amenity': Amenity, 'City': City, 'State': State,
+               'Place': Place, 'Review': Review}
+
 
 class HBNBCommand(cmd.Cmd):
-    """ Base Class"""
+    """ This defines the command interpreter
+        Attribute:
+                    prompt (str): The command prompt
+    """
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
         """Quit the command interpreter"""
         return True
 
-    def do_eof(self, arg):
+    def do_EOF(self, arg):
         """Exit on EOF(Ctrl-D)"""
+        print("")
         return True
 
     def emptyline(self):
@@ -52,6 +62,7 @@ class HBNBCommand(cmd.Cmd):
                 new_instance = City()
             new_instance.save()
             print(new_instance.id)
+            storage.save()
 
     def do_show(self, arg):
         """Prints string representation of an instance"""
@@ -61,11 +72,11 @@ class HBNBCommand(cmd.Cmd):
         elif args[0] not in ['BaseModel', 'State', 'City',
                              'User', 'Place', 'Amenity', 'Review']:
             print("** class doesn't exist **")
-        elif len(args) < 2:
+        elif len(args) == 1:
             print("** instance id is missing **")
         else:
-            key = f"{args[0]}.{args[1]}"
-            if key in models.storage.all().keys():
+            key = "{}.{}".format(args[0], args[1])
+            if key in storage.all().keys():
                 print(storage.all()[key])
             else:
                 print("** no instance found **")
@@ -89,13 +100,24 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_all(self, arg):
-        """ Prints all string representation of all instances based
-        or not on the class name"""
-        if arg != 'BaseModel' and len(arg) >  0:
+        """Prints string representation of all instances."""
+        input_args = arg.split()
+        all_objs = storage.all()
+
+        if len(input_args) < 1:
+            all_objs = storage.all()
+            print(["{}".format(str(v)) for _, v in objs.items()])
+            return
+
+        if input_args[0] not in the_classes.keys():
             print("** class doesn't exist **")
+            return
+
         else:
-            for value in models.storage.all().values():
-                print(value)
+            print(["{}".format(str(v))
+                   for _, in all_objs.items() if type(v).__name__
+                   == input_args[0]])
+            return
 
     def do_update(self, arg):
         """Updates an instance based on the class name and
@@ -112,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             key = f"{args[0]}.{args[1]}"
-            if key not in models.storage.all().keys():
+            if key not in storage.all().keys():
                 print("** no instance found **")
             elif len(args) == 2:
                 print("** attribute name missing **")
