@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ This is the console module"""
+
 import cmd
 import json
 import re
@@ -12,6 +13,8 @@ from models.place import Place
 from models.amenity import Amenity
 from models.city import City
 from models.review import Review
+
+"""These are the imports"""
 
 the_classes = {'BaseModel': BaseModel, 'User': User,
                'Amenity': Amenity, 'City': City, 'State': State,
