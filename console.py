@@ -43,25 +43,26 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Creates instance, save it and prints it with an id"""
-        if len(arg) == 0:
+        args = arg.spilt()
+        if len(args) == 0:
             print("** class name missing **")
-        elif arg not in ['BaseModel', 'City', 'User', 'Place',
-                         'Amenity', 'Review']:
+        elif args not in ['BaseModel', 'City', 'User', 'Place',
+                          'Amenity', 'Review']:
             print("** class doesn't exist **")
         else:
-            if arg == 'BaseModel':
+            if len(args) == 'BaseModel':
                 new_instance = BaseModel()
-            elif arg == 'User':
+            elif len(args) == 'User':
                 new_instance = User()
-            elif arg == 'Place':
+            elif len(args) == 'Place':
                 new_instance = Place()
-            elif arg == 'Amenity':
+            elif len(args) == 'Amenity':
                 new_instance = Amenity()
-            elif arg == 'Review':
+            elif len(args) == 'Review':
                 new_instance = Review()
-            elif arg == 'State':
+            elif len(args) == 'State':
                 new_instance = State()
-            elif arg == 'City':
+            elif len(args) == 'City':
                 new_instance = City()
             new_instance.save()
             print(new_instance.id)
