@@ -16,10 +16,15 @@ from time import sleep
 import models
 """ imported modules """
 
-class TestBaseModel(unittest.Testcase):
+class TestBaseModel(unittest.TestCase):
     """ testing the base class """
+    def test_attributes(self):
+        bm = BaseModel()
+        self.assertTrue(hasattr(self.bm, 'id'))
+        self.assertTrue(hasattr(self.bm, 'created_at'))
+        self.assertTrue(hasattr(self.bm, 'updated_at'))
 
-    def test_uuid(self):
+    def test_unique_id(self):
         """ testing if instance id has been assigned """
         bm = BaseModel()
         self.assertIsInstance(model.id, str)
@@ -63,14 +68,28 @@ class TestBaseModel(unittest.Testcase):
     def test_updated_at(self):
         """ testing the time instance was updated """
         bm = BaseModel()
-        self.assertedIsInstance(model.updated_at, datetime)
+        self.assertIsInstance(model.updated_at, datetime)
 
     def test_instance(self):
         """ test if new instance has been instantiation """
         bm = BaseModel()
-        self.assertedIsInstance(model, BaseModel)
+        self.assertIsInstance(model, BaseModel)
 
-    def test
+    def test_save:
+        bm = BaseModel()
+        first_updated_at = bm.updated_at
+        time.sleep(0.05)
+        bm.save()
+        self.assertNotEqual(bm.updated_at, first_updated_at)
+
+    def test_to_dict(self):
+        bm = BaseModel()
+        obj_dict = bm.to_dict()
+        expected_keys = {'id', 'created_at', 'updated_at', '__class__'}
+        self.assertTrue(set(obj_dict.keys()) == expected_keys)
+        self.assertEqual(obj_dict['__class__'], bm.__class__.__name__)
+        self.assertEqual(obj_dict['created_at'], bm.created_at.isoformat())
+        self.assertEqual(obj_dict['updated_at'], bm.updated_at.isoformat())
 
 if __name__ == '__main__':
     unittest.main()
