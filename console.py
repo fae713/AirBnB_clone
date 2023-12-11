@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """Creates instance, save it and prints it with an id"""
-        if arg == 0:
+        if len(arg) == 0:
             print("** class name missing **")
         elif arg not in ['BaseModel', 'City', 'User', 'Place',
                          'Amenity', 'Review']:
