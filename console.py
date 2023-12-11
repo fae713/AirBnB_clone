@@ -46,23 +46,23 @@ class HBNBCommand(cmd.Cmd):
         args = arg.split()
         if len(args) == 0:
             print("** class name missing **")
-        elif len(args) not in ['BaseModel', 'City', 'User', 'Place',
+        elif arg not in ['BaseModel', 'City', 'User', 'Place',
                           'Amenity', 'Review']:
             print("** class doesn't exist **")
         else:
-            if len(args) == 'BaseModel':
+            if arg == 'BaseModel':
                 new_instance = BaseModel()
-            elif len(args) == 'User':
+            elif arg == 'User':
                 new_instance = User()
-            elif len(args) == 'Place':
+            elif arg == 'Place':
                 new_instance = Place()
-            elif len(args) == 'Amenity':
+            elif arg == 'Amenity':
                 new_instance = Amenity()
-            elif len(args) == 'Review':
+            elif arg == 'Review':
                 new_instance = Review()
-            elif len(args) == 'State':
+            elif arg == 'State':
                 new_instance = State()
-            elif len(args) == 'City':
+            elif arg == 'City':
                 new_instance = City()
             new_instance.save()
             print(new_instance.id)
